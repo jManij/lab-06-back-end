@@ -28,10 +28,10 @@ app.get('/location', (request, response) => {
 
 //Route for weather
 app.get('/weather', (request, response) => {
-  try{
+  try {
     const weatherData = weatherForecast(request.query.data);
     response.send(weatherData);
-  } catch(e) {
+  } catch (e) {
     response.status(500).send('Status 500: Sorry I broke while finding weather data');
   }
 })
@@ -51,7 +51,6 @@ function weatherForecast() {
     }
     weather.push(obj);
   })
-
   return weather;
 }
 
