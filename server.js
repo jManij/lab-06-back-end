@@ -19,13 +19,6 @@ const app = express();
 app.use(cors());
 
 
-// $.ajax({
-//   url: `localhost:3000/location`,
-//   method: 'GET',
-//   data: { data: searchQuery }
-// })
-
-
 // app.get('/location') is a route
 app.get('/location', (request, response) => {
   // response.send('hello world you are on the location path');
@@ -40,10 +33,10 @@ app.get('/location', (request, response) => {
 
 //Route for weather
 app.get('/weather', (request, response) => {
-  try{
+  try {
     const weatherData = weatherForecast(request.query.data);
     response.send(weatherData);
-  } catch(e) {
+  } catch (e) {
     response.status(500).send('Status 500: Sorry I broke while finding weather data');
   }
 })
@@ -66,35 +59,15 @@ function weatherForecast(locationInfo) {
   let currentTime = new Date().getTime();
   let currentDate = new Date(currentTime);
 
-  darkSkyData.daily.forEach(item => {
+  darkSkyData.daily.data.forEach(item => {
     let obj = {
-      forecast: 'good',
-      time:'too good time',
+      forecast: item.summary,
+      time: new Date(item.time).toDateString()
     }
     weather.push(obj);
   })
 
-  console.log(weather);
-  
-  
-
-  // let obj = {
-  //   forecast: item.data[0].summary,
-  //   time: new Date(currentDate - new Date(item.data[0].time)).toDateString()
-  // };
-  // const weather = [
-
-
-  //   {
-  //     forecast: darkSkyData.daily.data[0].summary,
-  //     time: new Date(currentDate - new Date(darkSkyData.daily.data[0].time)).toDateString(),
-  //   },
-  //   {
-  //     forecast: "Mostly cloudy in the morning.",
-  //     time: "Tue Jan 02 2001"
-  //   }
-    
-  // ]
+  // time: new Date(currentDate - new Date(item.time)).toDateString()
 
   return weather;
 
@@ -107,8 +80,8 @@ function searchToLatLng(locationName) {
     search_query: locationName,
     formatted_query: geoData.results[0].formatted_address,
     latitude: geoData.results[0].geometry.location.lat,
-    longitude: geoData.results[0].geometry.location.lng    
-    
+    longitude: geoData.results[0].geometry.location.lng
+
   }
   console.log(location);
   return location;
