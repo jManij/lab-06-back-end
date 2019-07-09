@@ -50,6 +50,8 @@ function searchToLatLng (locationName){
     latitude: geoData.results[0].geometry.location.lat,
     longitude: geoData.results[0].geometry.location.lng,
   }
+  console.log('inside searchToLatLng');
+  console.log(location);
   return location;
 }
 
