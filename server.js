@@ -12,17 +12,12 @@ const cors = require('cors');
 
 // Global vars
 const PORT = process.env.PORT;
-console.log(process.env.manish);
-
 // Make my server
 const app = express();
 app.use(cors());
 
-
 // app.get('/location') is a route
 app.get('/location', (request, response) => {
-  // response.send('hello world you are on the location path');
-  console.log(request.query.data);
   try {
     const locationData = searchToLatLng(request.query.data);
     response.send(locationData);
@@ -41,24 +36,14 @@ app.get('/weather', (request, response) => {
   }
 })
 
-
 app.use('*', (request, response) => {
   response.send('you got to the wrong place');
 })
 
-
-
-//Constructor for weather data
-// const weather = [];
-
-
-function weatherForecast(locationInfo) {
+function weatherForecast() {
   //Constructor for weather data
   const weather = [];
   const darkSkyData = require('./data/darksky.json');
-  let currentTime = new Date().getTime();
-  let currentDate = new Date(currentTime);
-
   darkSkyData.daily.data.forEach(item => {
     let obj = {
       forecast: item.summary,
@@ -66,13 +51,8 @@ function weatherForecast(locationInfo) {
     }
     weather.push(obj);
   })
-
-  // time: new Date(currentDate - new Date(item.time)).toDateString()
-
   return weather;
-
 }
-
 
 function searchToLatLng(locationName) {
   const geoData = require('./data/geo.json');
@@ -81,16 +61,11 @@ function searchToLatLng(locationName) {
     formatted_query: geoData.results[0].formatted_address,
     latitude: geoData.results[0].geometry.location.lat,
     longitude: geoData.results[0].geometry.location.lng
-
   }
-  console.log(location);
   return location;
 }
-
-
 
 // Start the server
 app.listen(PORT, () => {
   console.log(`Our app is up on port ${PORT}`)
 })
-
