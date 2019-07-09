@@ -47,7 +47,7 @@ function weatherForecast() {
   darkSkyData.daily.data.forEach(item => {
     let obj = {
       forecast: item.summary,
-      time: new Date(item.time).toDateString()
+      time: new Date(item.time * 1000).toDateString()
     }
     weather.push(obj);
   })
